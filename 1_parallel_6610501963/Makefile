@@ -1,7 +1,7 @@
-CC = gcc
+CC = gcc-15
 DEBUGFLAGS = -Wall
-CFLAGS = $(DEBUGFLAGS) -O3 -fopenmp -lm
-LDFLAGS = -fopenmp
+CFLAGS = $(DEBUGFLAGS) -O3 -fopenmp
+LDFLAGS = -fopenmp -lm
 
 BUILD_DIR = build
 TARGET = $(BUILD_DIR)/main
@@ -15,7 +15,7 @@ $(BUILD_DIR):
 	mkdir build
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(LDFLAGS) -o $@ $<
+	$(CC) -o $@ $< $(LDFLAGS)
 
 $(BUILD_DIR)/%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -I$(INC_DIR) -o $@ -c $< 
