@@ -3,6 +3,8 @@
 #include <unistd.h> // fork
 #include <sys/resource.h> // get rusage
 
+#include <config.h>
+
 void show_mem(){ 
 	struct rusage mem_info; 
 	getrusage(RUSAGE_SELF, &mem_info); 
@@ -12,7 +14,6 @@ void show_mem(){
 
 int main(){ 
 	show_mem(); 
-	int memsize = 80 * 1024 * 1024; // 80 MB
 	if (memsize % sizeof(int) != 0){
 		printf("memsize is doesn't fit in sizeof int\n");
 		return 1;

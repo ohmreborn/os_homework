@@ -4,9 +4,10 @@ CFLAGS = $(DEBUGFLAGS) -O3 -fopenmp
 LDFLAGS = -fopenmp
 
 BUILD_DIR = build
-SOURCES = parallel.c 
-OBJECTS = $(BUILD_DIR)/parallel.o
 TARGET = $(BUILD_DIR)/main
+INC_DIR = include
+HEADERS = $(INC_DIR)/config.h
+OBJECTS = $(BUILD_DIR)/parallel.o
 
 all: $(BUILD_DIR) $(TARGET)
 
@@ -14,11 +15,10 @@ $(BUILD_DIR):
 	mkdir build
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CC) $(LDFLAGS) -o $@ $<
 
-$(BUILD_DIR)/%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
+$(BUILD_DIR)/%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -I$(INC_DIR) -o $@ -c $< 
 
 run: all
 	./$(TARGET)
