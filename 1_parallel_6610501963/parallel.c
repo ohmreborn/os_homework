@@ -38,7 +38,15 @@ void show(bool *is_factor, uint64_t sqrt_n, uint64_t number){
 
 int main() {
 	double *result = (double *)malloc(sizeof(double) * num_benchmark);
+	FILE *fptr = fopen("result.csv", "w");
+	for (int i=0;i<thread_test_size;i++){
+		fprintf(fptr, "%d,", num_threads[i]);
+	}
+	fprintf(fptr, "\n");
+	
+
 	for (int test_num_i=0; test_num_i<number_test_size; test_num_i++){
+		fprintf(fptr, "%" PRIu64 ",", numbers[test_num_i]);
 		for (int test_thread_i=0; test_thread_i<thread_test_size; test_thread_i++){
 			uint64_t number = numbers[test_num_i];
 			int thread_size = num_threads[test_thread_i];
@@ -61,12 +69,15 @@ int main() {
 			}
 			SD = sqrt(SD);
 			printf("%f ± %f \n", average, SD);
+			fprintf(fptr, "%f,", average);
 			free(is_factor);
 		}
 		printf("\n");
+		fprintf(fptr, "\n");
 	}	
 
 	free(result);
+	fclose(fptr);
 	return 0;
 }
 
