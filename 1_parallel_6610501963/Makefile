@@ -1,6 +1,6 @@
-CC = gcc-15
+CC = gcc
 DEBUGFLAGS = -Wall
-CFLAGS = $(DEBUGFLAGS) -O3 -fopenmp
+CFLAGS = $(DEBUGFLAGS) -O3 -fopenmp -lm
 LDFLAGS = -fopenmp
 
 BUILD_DIR = build
