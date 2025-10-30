@@ -1,4 +1,4 @@
-// int memsize = 50 * 1024 * 1024; // 50 MB
+int memsize = 50 * 1024 * 1024; // 50 MB
 // int memsize = 60 * 1024 * 1024; // 60 MB
 // int memsize = 70 * 1024 * 1024; // 70 MB
 // int memsize = 80 * 1024 * 1024; // 80 MB
