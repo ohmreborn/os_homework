@@ -19,13 +19,13 @@ void find_factor_pairs(uint64_t number, uint64_t sqrt_n, bool *is_factor) {
 	}
 }
 
-void bench_mark(uint64_t number, uint64_t sqrt_n, bool *is_factor){
-	clock_t start, end;
-	start = clock();
+double bench_mark(uint64_t number, uint64_t sqrt_n, bool *is_factor){
+	double start = omp_get_wtime();
 	find_factor_pairs(number, sqrt_n, is_factor);
-	end = clock();
-	double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-	printf("CPU time used: %f seconds\n", cpu_time_used);
+	double end = omp_get_wtime();
+//	printf("Total time: %.4f s\n", end - start);
+	return end - start;
+
 }
 
 void show(bool *is_factor, uint64_t sqrt_n, uint64_t number){
@@ -37,30 +37,36 @@ void show(bool *is_factor, uint64_t sqrt_n, uint64_t number){
 }
 
 int main() {
+	double *result = (double *)malloc(sizeof(double) * num_benchmark);
 	for (int test_num_i=0; test_num_i<number_test_size; test_num_i++){
 		for (int test_thread_i=0; test_thread_i<thread_test_size; test_thread_i++){
 			uint64_t number = numbers[test_num_i];
 			int thread_size = num_threads[test_thread_i];
 
 			uint64_t sqrt_n = (uint64_t)sqrt((double)number);
-			if (sqrt_n % thread_size != 0){
-				printf("Error for bench_mark number " "%"PRIu64 " with num_threads %d ", number, thread_size);
-				printf("please specify a square root of number that Divisible %d", thread_size);
-				return 1;
-			}
 			size_t alloc_size = sizeof(bool) * sqrt_n;
 			bool *is_factor = (bool *)malloc(alloc_size);
-			printf("Prime factorization of %" PRIu64 "with num_threads %d" ":\n", number, thread_size);
+			printf("Prime factorization of %" PRIu64 "with num_threads %d" ": ", number, thread_size);
+			double average = 0;
+			double SD = 0;
 			for (int i=0;i<num_benchmark;i++){
-				bench_mark(number, sqrt_n, is_factor);
+				result[i] = bench_mark(number, sqrt_n, is_factor);
+				average += result[i];
 //				show(is_factor, sqrt_n, number);
 				memset(is_factor, false, alloc_size); 
 			}
+			average /= (double)num_benchmark;
+			for (int i=0;i<num_benchmark;i++){
+				SD += (average - result[i]) * (average - result[i]);
+			}
+			SD = sqrt(SD);
+			printf("%f ± %f \n", average, SD);
 			free(is_factor);
 		}
 		printf("\n");
 	}	
 
+	free(result);
 	return 0;
 }
 

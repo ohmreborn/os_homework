@@ -11,4 +11,4 @@ uint64_t numbers[6] = {
 };
 int thread_test_size = 4;
 int num_threads[4] = {1, 2, 4, 8};
-int num_benchmark = 1;
+int num_benchmark = 2;
