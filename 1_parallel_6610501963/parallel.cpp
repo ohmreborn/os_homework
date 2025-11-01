@@ -14,9 +14,8 @@ void find_factor_pairs(uint64_t number, uint64_t sqrt_n, int thread_size, std::v
 	#pragma omp parallel
 	{
 		std::vector<uint64_t> local_factor;
-		int thread_id = omp_get_thread_num();
 		#pragma omp for nowait
-		for (uint64_t i = 1+thread_id; i <= sqrt_n; i+=thread_size) {
+		for (uint64_t i = 1; i <= sqrt_n; i++) {
 			if (number % i == 0){
 				local_factor.push_back(i);
 			}
