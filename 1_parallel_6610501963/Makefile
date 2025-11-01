@@ -1,4 +1,4 @@
-CXX = g++-15
+CXX = g++
 DEBUGFLAGS = -Wall
 CFLAGS = -fopenmp $(DEBUGFLAGS) -O3 -std=c++11
 LDFLAGS = -fopenmp -lm
