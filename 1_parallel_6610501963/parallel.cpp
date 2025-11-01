@@ -53,7 +53,7 @@ int main() {
 		return 1; // Indicate an error
 	}
 	for (int i=0;i<thread_test_size;i++){
-		output << num_threads[i];
+		output << num_threads[i] << ",";
 	}
 	output << '\n';
 
