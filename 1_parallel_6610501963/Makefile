@@ -1,6 +1,6 @@
-CC = gcc-15
+CC = g++-15
 DEBUGFLAGS = -Wall
-CFLAGS = $(DEBUGFLAGS) -O3 -fopenmp
+CFLAGS = $(DEBUGFLAGS) -O3 -fopenmp -std=c++11
 LDFLAGS = -fopenmp -lm
 
 BUILD_DIR = build
@@ -17,7 +17,7 @@ $(BUILD_DIR):
 $(TARGET): $(OBJECTS)
 	$(CC) -o $@ $< $(LDFLAGS)
 
-$(BUILD_DIR)/%.o: %.c $(HEADERS)
+$(BUILD_DIR)/%.o: %.cpp $(HEADERS)
 	$(CC) $(CFLAGS) -I$(INC_DIR) -o $@ -c $< 
 
 run: all
