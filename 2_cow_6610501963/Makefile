@@ -1,4 +1,4 @@
-CC = gcc
+CC = gcc-15
 DEBUGFLAGS = -Wall
 CFLAGS = $(DEBUGFLAGS)
 

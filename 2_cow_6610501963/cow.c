@@ -8,7 +8,7 @@ void show_mem(){
 	struct rusage mem_info; 
 	getrusage(RUSAGE_SELF, &mem_info); 
 	// On Linux, ru_maxrss is in kilobytes, not bytes
-	int mem = mem_info.ru_maxrss / 1024;  // Convert KB to MB
+	int mem = mem_info.ru_maxrss / (1024 * 1024);  // Convert KB to MB
 	printf("%d MB\n", mem); 
 }
 
@@ -51,11 +51,16 @@ int main(int argc, char *argv[]){
 		show_mem(); 
 
 		// Write to the array to trigger COW
-		for (int i=0; i < num_element; i++){
+		for (int i=0; i < num_element/2; i++){
 			a[i] = 2;
 		}
+		printf("child use after write half of memory: ");
+		show_mem(); 
 
-		printf("child use after write a memory: ");
+		for (int i=num_element/2; i < num_element; i++){
+			a[i] = 2;
+		}
+		printf("child use after write full of memory: ");
 		show_mem(); 
 		exit(0);
 	} else { // parent process
