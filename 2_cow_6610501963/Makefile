@@ -1,6 +1,6 @@
 CC = gcc
 DEBUGFLAGS = -Wall
-CFLAGS = $(DEBUGFLAGS) -O3
+CFLAGS = $(DEBUGFLAGS)
 
 BUILD_DIR = build
 TARGET = $(BUILD_DIR)/main
