@@ -3,3 +3,4 @@
 **/build
 **/*.csv
 **/compile_commands.json
+**/.cache
