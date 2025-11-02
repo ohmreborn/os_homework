@@ -3,22 +3,27 @@
 #include <unistd.h> // fork
 #include <sys/resource.h> // get rusage
 
-#include <config.h>
-
 void show_mem(){ 
 	struct rusage mem_info; 
 	getrusage(RUSAGE_SELF, &mem_info); 
 	int mem = mem_info.ru_maxrss / (1024 * 1024);
 	printf("%d MB\n", mem); 
-} 
+}
 
-int main(){ 
+int main(int argc, char *argv[]){ 
+	int memsize;
+	if (argc > 1) {
+		memsize = atoi(argv[1]) * 1024 * 1024; // Convert MB to bytes
+	} else {
+		memsize = 50 * 1024 * 1024; // default 50 MB
+	}
+	printf("before allocate memory\n");
 	show_mem(); 
+
 	if (memsize % sizeof(int) != 0){
 		printf("memsize is doesn't fit in sizeof int\n");
 		return 1;
 	}
-
 	int num_element = memsize / sizeof(int);
 	int *a = (int *)malloc(memsize); 
 	if (!a){
@@ -38,17 +43,14 @@ int main(){
 	if (child_id == 0){ // child procress
 		printf("child use before write a memory: ");
 		show_mem(); 
-		int sum = 0;
 		for (int i=0;i<num_element;i++){
 			a[i] = 2;
-			sum += a[i];
 		}
 		printf("child use after write a memory: ");
 		show_mem(); 
 	}else{ // parent procress
-		int sum = 0;
 		for (int i=0;i<num_element;i++){
-			sum += a[i];
+			a[i] = 1;
 		}
 		printf("parent use: ");
 		show_mem(); 

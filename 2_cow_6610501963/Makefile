@@ -1,4 +1,4 @@
-CC = gcc-15
+CC = gcc
 DEBUGFLAGS = -Wall
 CFLAGS = $(DEBUGFLAGS) -O3
 
@@ -6,8 +6,6 @@ BUILD_DIR = build
 TARGET = $(BUILD_DIR)/main
 
 OBJECTS = $(BUILD_DIR)/cow.o
-INC_DIR = include
-HEADERS = $(INC_DIR)/config.h
 
 all: $(BUILD_DIR) $(TARGET)
 
@@ -18,10 +16,10 @@ $(TARGET): $(OBJECTS)
 	$(CC) -o $@ $<
 
 $(BUILD_DIR)/%.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -I$(INC_DIR) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 run: all
-	./$(TARGET)
+	$(TARGET) $(MEM)
 
 clean:
 	rm -rf $(BUILD_DIR)
